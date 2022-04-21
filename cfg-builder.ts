@@ -24,7 +24,7 @@ import {ICFGGeneration} from "./ICFGGeneration";
 import {ForwardCfgNode} from "./ForwardCfgNode";
 
 
-const tsConfigPath = "C:\\Users\\Dell\\Downloads\\applied-ts-project-master\\tsconfig.json";
+const tsConfigPath = "C:\\Users\\Admin\\Downloads\\test-project\\applied-ts-project\\tsconfig.json";
 console.log("Start Parsing tsConfigFile...");
 const project = new Project({tsConfigFilePath: tsConfigPath});
 console.log("Finish Parsing project");
