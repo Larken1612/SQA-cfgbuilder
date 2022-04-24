@@ -22,12 +22,17 @@ import {IcfgNode} from "./IcfgNode";
 import {ICFG} from "./ICFG";
 import {ICFGGeneration} from "./ICFGGeneration";
 import {ForwardCfgNode} from "./ForwardCfgNode";
+import * as dotenv from 'dotenv';
+dotenv.config();
+if(process.env.tsConfigFilePath) {
+    let x = process.env.tsConfigFilePath;
+}
 
-
-const tsConfigPath = "C:\\Users\\Admin\\Downloads\\test-project\\applied-ts-project\\tsconfig.json";
+const tsConfigPath = "C:\\Users\\Dell\\Downloads\\applied-ts-project-master\\tsconfig.json";
 console.log("Start Parsing tsConfigFile...");
 const project = new Project({tsConfigFilePath: tsConfigPath});
 console.log("Finish Parsing project");
+
 
 // khai báo 2 node đầu và cuối.
 let start = new Node("Start");
