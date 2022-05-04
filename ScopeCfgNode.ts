@@ -17,7 +17,7 @@ export class ScopeCfgNode extends CfgNode {
             openScope.setBranch(branch[0]);
         } else if (branch.length > 1) {
            // ScopeCfgNode.logger.error("nhanh tiep theo cua Openscope phai lon hon 1!");
-            console.log("nhanh tiep theo cya Open scope phai lon hon 1")
+            console.log("nhanh tiep theo cya Open scope phai lon hon 1");
         }
         return openScope;
     }
