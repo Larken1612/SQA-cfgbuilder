@@ -15,9 +15,21 @@ import {BeginFlagCfgNode} from "./BeginFlagCfgNode";
 import {EndFlagCfgNode} from "./EndFlagCfgNode";
 import {ScopeCfgNode} from "./ScopeCfgNode";
 import {ForwardCfgNode} from "./ForwardCfgNode";
+import {Utils} from "./Utils";
+import {IfConditionCfgNode} from "./IfConditionCfgNode";
+import {ForConditionCfgNode} from "./ForConditionCfgNode";
+import {WhileConditionCfgNode} from "./WhileConditionCfgNode";
+import {DoConditionCfgNode} from "./DoConditionCfgNode";
 
 export class CfgBuilder implements ICFGGeneration {
 
+    public static readonly IF_FLAG: number = 0;
+
+    public static readonly DO_FLAG: number = 1;
+
+    public static readonly WHILE_FLAG: number = 2;
+
+    public static readonly FOR_FLAG: number = 3;
     private BEGIN?: IcfgNode;
     private END ?: IcfgNode;
     private functionNode: FunctionDeclaration;
@@ -72,13 +84,13 @@ export class CfgBuilder implements ICFGGeneration {
         root.setVisited(true);
         statements.push(root);
         let tmp: IcfgNode | undefined = root.getTrueNode();
-        if(tmp != undefined) {
+        if (tmp != undefined) {
             let trueStatement: IcfgNode | undefined = this.nextConcrete(tmp);
             root.setTrueNode(trueStatement);
             let check = root.getFalseNode();
-            if(check != undefined) {
+            if (check != undefined) {
                 let falseStatement: IcfgNode | undefined = this.nextConcrete(check);
-                if(falseStatement != undefined && trueStatement != undefined) {
+                if (falseStatement != undefined && trueStatement != undefined) {
                     root.setFalseNode(falseStatement);// kiem tra
                     this.linkStatement(trueStatement, statements);
                     this.linkStatement(falseStatement, statements);
@@ -112,9 +124,11 @@ export class CfgBuilder implements ICFGGeneration {
 
                 let afterTrue: ForwardCfgNode = new ForwardCfgNode("ForwardCfgNode");
                 let afterFalse: ForwardCfgNode = new ForwardCfgNode("Hello");
-
+                /*
                 begin.setTrueNode(afterTrue);
                 begin.setFalseNode(afterFalse);
+                */
+                this.visitCondition(condition, begin, afterTrue, afterFalse, CfgBuilder.IF_FLAG);
 
 
                 this.visitStatement(thenStmt, afterTrue, end);
@@ -167,6 +181,32 @@ export class CfgBuilder implements ICFGGeneration {
             newNode.setBranch(end);
             console.log("Return statement");
         }
+    }
+
+    private visitCondition(condition: Expression, begin: IcfgNode, endTrue: IcfgNode, endFalse: IcfgNode, flag: number): void {
+        condition = Utils.shortenASTCondition(condition);
+        this.visitShortenCondition(condition, begin, endTrue, endFalse, flag);
+    }
+
+    private visitShortenCondition(condition: Expression, begin, endTrue: IcfgNode, endFalse: IcfgNode, flag: number) {
+        let conditionCfgNode: IcfgNode = null;
+        switch (flag) {
+            case CfgBuilder.IF_FLAG:
+                conditionCfgNode = new IfConditionCfgNode(condition);
+                break;
+            case CfgBuilder.FOR_FLAG:
+                conditionCfgNode = new ForConditionCfgNode(condition);
+                break;
+            case CfgBuilder.WHILE_FLAG:
+                conditionCfgNode = new WhileConditionCfgNode(condition);
+            case CfgBuilder.DO_FLAG:
+                conditionCfgNode = new DoConditionCfgNode(condition);
+                break;
+        }
+        begin.setBranch(conditionCfgNode);
+        conditionCfgNode.setTrueNode(endTrue);
+        conditionCfgNode.setFalseNode(endFalse);
+        conditionCfgNode.setContent(condition.getText())
     }
 
     getFunctionNode(): FunctionDeclaration {

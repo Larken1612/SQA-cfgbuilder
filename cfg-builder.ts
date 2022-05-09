@@ -14,8 +14,8 @@ import {
 import {Node} from "./Node";
 // @ts-ignore
 import {Cfg} from "./Cfg";
-import {NormalNode} from "./NormalNode";
-import {ConditionalNode} from "./ConditionalNode";
+import {NormalCfgNode} from "./NormalCfgNode";
+import {ConditionCfgNode} from "./ConditionCfgNode";
 import {CfgNode} from "./CfgNode";
 import {ScopeCfgNode} from "./ScopeCfgNode";
 import {IcfgNode} from "./IcfgNode";
@@ -23,6 +23,7 @@ import {ICFG} from "./ICFG";
 import {ICFGGeneration} from "./ICFGGeneration";
 import {ForwardCfgNode} from "./ForwardCfgNode";
 import {EndFlagCfgNode} from "./EndFlagCfgNode";
+import {IfConditionCfgNode} from "./IfConditionCfgNode";
 import * as dotenv from 'dotenv';
 import {BeginFlagCfgNode} from "./BeginFlagCfgNode";
 import {CfgBuilder} from "./CfgBuilder";
