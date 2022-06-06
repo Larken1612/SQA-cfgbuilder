@@ -2,8 +2,8 @@ import {ICFGGeneration} from "./ICFGGeneration";
 import {IcfgNode} from "./IcfgNode";
 import {
     Block,
-    BreakStatement, CommentStatement,
-    ContinueStatement, DoStatement,
+    BreakStatement, CaseClause, CodeBlockWriter, CommentStatement,
+    ContinueStatement, DefaultClause, DoStatement,
     Expression, ForInStatement, ForOfStatement, ForStatement,
     FunctionDeclaration,
     IfStatement, IterationStatement, ReturnStatement,
@@ -23,6 +23,7 @@ import {DoConditionCfgNode} from "./DoConditionCfgNode";
 
 export class CfgBuilder implements ICFGGeneration {
 
+   // public static logger = new MyLogger('CfgBuilder');
     public static readonly IF_FLAG: number = 0;
 
     public static readonly DO_FLAG: number = 1;
@@ -148,16 +149,15 @@ export class CfgBuilder implements ICFGGeneration {
         } else if (statement instanceof WithStatement) {
             console.log("With Statment");
         } else if (statement instanceof SwitchStatement) {
-            /*
             let newText = this.convertSwitchStatementToIfStatement(statement);
             console.log("Refactor Switch statement\n", newText);
             let refactorStatement = statement.replaceWithText(newText);
             if (refactorStatement instanceof IfStatement) {
                 this.visitStatement(refactorStatement, begin, end);
             } else {
-                CFGGeneration.logger.error("Can't detect replaced SwitchStatement as If Statements");
+                console.log("Can't detect replaced SwitchStatement as If Statements");
             }
-            */
+
         } else if (statement instanceof CommentStatement) {
             console.log("Comment Statement");
         } else if (statement instanceof IterationStatement) {
@@ -208,6 +208,105 @@ export class CfgBuilder implements ICFGGeneration {
         conditionCfgNode.setFalseNode(endFalse);
         conditionCfgNode.setContent(condition.getText())
     }
+// ham xu li va danh dau dieu kien dau tien cua if
+//cac bieu thuc tiep theo la if else
+    convertSwitchStatementToIfStatement(statement: SwitchStatement): string {
+        let writer = new CodeBlockWriter();
+        let left = statement.getExpression();
+        let leftText = left.getText();
+        let clauses = statement.getClauses();
+        let emptyClause: Array<string> = new Array<string>();
+
+        let firstConditionFlag: number = 0;
+        for (var i = 0; i < clauses.length; i++) {
+            let cl = clauses[i];
+            if (cl instanceof CaseClause) {
+                let right = cl.getExpression();
+                let rightText = right.getText();
+                let caseBlock: Statement[] = cl.getStatements();
+                console.log("CASE Clause: " + caseBlock.length);
+                if (caseBlock.length == 0){
+                    emptyClause.push(rightText);
+                    firstConditionFlag++;
+                }
+                else {
+                    emptyClause.push(rightText);
+                    let newExpressionText = "";
+                    emptyClause.forEach(r => {
+                        newExpressionText += leftText + " == " + r + " || ";
+                    });
+                    let lengthExpression = newExpressionText.length;
+                    if(newExpressionText.endsWith(" || ")) {
+                        newExpressionText = newExpressionText.substring(0, lengthExpression - 4);
+                    }
+                    emptyClause = new Array<string>();
+                    if( i == firstConditionFlag) {
+                        writer.write('if (${newExpressionText})').block(()=> {
+                            caseBlock.forEach(st => {
+                                if (st instanceof Block) {
+                                    let subStatements = st.getStatements();
+                                    subStatements.forEach(sstm => {
+                                        CfgBuilder.writeStatement(writer, sstm);
+                                    })
+                                }
+                                    else if (st instanceof BreakStatement) {
+
+                                    }
+                                    else {
+                                        writer.writeLine(st.getText());
+                                    }
+                                })
+                            })
+                        } else {
+                            writer.write('else if (${newExpressionText}').block(()=> {
+                                caseBlock.forEach(st => {
+                                    if(st instanceof Block) {
+                                        let subStatements = st.getStatements();
+                                        subStatements.forEach(sstm => {
+                                            CfgBuilder.writeStatement(writer,sstm);
+                                        })
+                                    } else {
+                                        writer.writeLine(st.getText());
+                                    }
+                                })
+                            })
+                        }
+                    }
+
+                } else if (cl instanceof DefaultClause) {
+                    let caseBlock: Statement[] = cl.getStatements();
+                    writer.write('else').block(() =>{
+                            caseBlock.forEach(st => {
+                                if(st instanceof Block) {
+                                    let subStatements = st.getStatements();
+                                    subStatements.forEach(sstm => {
+                                        CfgBuilder.writeStatement(writer, sstm);
+                                    })
+                                } else {
+                                    writer.writeLine(st.getText());
+                                }
+                            })
+                    })
+            }
+        }
+            return writer.toString();
+    }
+
+    static writeStatement(writer: CodeBlockWriter, statement: Statement) {
+            if (statement instanceof Block) {
+                let subStatements = statement.getStatements();
+                writer.block(() => {
+                    subStatements.forEach(sstm => {
+                       CfgBuilder.writeStatement(writer, sstm);
+                    })
+                })
+            } else if (statement instanceof BreakStatement) {
+
+            }
+            else {
+                writer.writeLine(statement.getText());
+            }
+        }
 
     getFunctionNode(): FunctionDeclaration {
         return this.functionNode;
