@@ -15,6 +15,7 @@ import {BeginFlagCfgNode} from "./BeginFlagCfgNode";
 import {EndFlagCfgNode} from "./EndFlagCfgNode";
 import {ScopeCfgNode} from "./ScopeCfgNode";
 import {ForwardCfgNode} from "./ForwardCfgNode";
+import {FlagCfgNode} from "./FlagCfgNode";
 import {Utils} from "./Utils";
 import {IfConditionCfgNode} from "./IfConditionCfgNode";
 import {ForConditionCfgNode} from "./ForConditionCfgNode";

@@ -33,7 +33,7 @@ if (process.env.tsConfigFilePath) {
     let x = process.env.tsConfigFilePath;
 }
 
-const tsConfigPath = "C:\\Users\\Admin\\Downloads\\test-project\\applied-ts-project\\tsconfig.json";
+const tsConfigPath = "C:\\Users\\Dell\\Downloads\\applied-ts-project-master\\tsconfig.json";
 console.log("Start Parsing tsConfigFile...");
 const project = new Project({tsConfigFilePath: tsConfigPath});
 console.log("Finish Parsing project");
