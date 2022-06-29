@@ -6,32 +6,39 @@ import {ITestpath} from "./ITestpath";
 import {FlagCondition} from "./FlagCondition";
 
 export class Testpath implements ITestpath {
-    private _cfg: ICFG;
-    private _functionNode: FunctionDeclaration;
-    private _flags: Array<FlagCondition>;
-    private _elements: Array<IcfgNode>;
+    private cfg: ICFG;
+    private functionNode: FunctionDeclaration;
+    private flags: Array<FlagCondition>;
+    private elements: Array<IcfgNode>;
 
 
     push(node: IcfgNode): void {
-        if (this._elements == null) {
-            this._elements = new Array<IcfgNode>();
-            this._elements.push(node);
+        if (this.elements == null) {
+            this.elements = new Array<IcfgNode>();
+            this.elements.push(node);
         } else {
-            this._elements.push(node);
+            this.elements.push(node);
         }
     }
 
     getElements(): Array<IcfgNode> {
-        return this._elements;
+        return this.elements;
     }
 
     getFunctionNode(): FunctionDeclaration {
-        return this._functionNode;
+        return this.functionNode;
     }
     setFunctionNode(value: FunctionDeclaration) {
-        this._functionNode = value;
+        this.functionNode = value;
     }
     setFlags(value: Array<FlagCondition>) {
-        this._flags = value
+        this.flags = value
+    }
+
+    getFlags(): Array<FlagCondition> {
+        return undefined;
+    }
+
+    pop(): void {
     }
 }

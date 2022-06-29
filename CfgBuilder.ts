@@ -21,6 +21,7 @@ import {IfConditionCfgNode} from "./IfConditionCfgNode";
 import {ForConditionCfgNode} from "./ForConditionCfgNode";
 import {WhileConditionCfgNode} from "./WhileConditionCfgNode";
 import {DoConditionCfgNode} from "./DoConditionCfgNode";
+import {Cfg} from "./Cfg";
 
 export class CfgBuilder implements ICFGGeneration {
 
@@ -33,8 +34,11 @@ export class CfgBuilder implements ICFGGeneration {
 
     public static readonly FOR_FLAG: number = 3;
     private BEGIN?: IcfgNode;
-    private END ?: IcfgNode;
+    private END?: IcfgNode;
     private functionNode: FunctionDeclaration;
+    generateCFG(): ICFG {
+        return
+    }
 
     constructor(functionNode: FunctionDeclaration) {
         this.functionNode = functionNode;
@@ -51,6 +55,9 @@ export class CfgBuilder implements ICFGGeneration {
         }
         let statementList: IcfgNode[] = [];
         this.linkStatement(this.BEGIN, statementList);
+        let result: Cfg = new Cfg (statementList, functionNode);
+        result.setRoot(this.BEGIN);
+        //return result;
         //return this.parse(this.functionNode);
     }
 
@@ -309,6 +316,8 @@ export class CfgBuilder implements ICFGGeneration {
             }
         }
 
+
+
     getFunctionNode(): FunctionDeclaration {
         return this.functionNode;
     };
@@ -324,5 +333,6 @@ export class CfgBuilder implements ICFGGeneration {
             res = res.getTrueNode();
         }
     }
+
 
 }

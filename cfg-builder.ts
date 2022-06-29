@@ -27,13 +27,15 @@ import {IfConditionCfgNode} from "./IfConditionCfgNode";
 import * as dotenv from 'dotenv';
 import {BeginFlagCfgNode} from "./BeginFlagCfgNode";
 import {CfgBuilder} from "./CfgBuilder";
+import {TestpathGeneration} from "./TestpathGeneration";
+import {ITestpathGeneration} from "./ITestpathGeneration";
 
 dotenv.config();
 if (process.env.tsConfigFilePath) {
     let x = process.env.tsConfigFilePath;
 }
 
-const tsConfigPath = "C:\\Users\\Dell\\Downloads\\applied-ts-project-master\\tsconfig.json";
+const tsConfigPath = "C:\\Users\\Admin\\Downloads\\test-project\\applied-ts-project\\tsconfig.json";
 console.log("Start Parsing tsConfigFile...");
 const project = new Project({tsConfigFilePath: tsConfigPath});
 console.log("Finish Parsing project");
@@ -61,9 +63,13 @@ if (sourceFile != undefined) {
         let cfgbuilder = new CfgBuilder(_functionNode);
         cfgbuilder.printInfor1();
         console.log("Done for visitblock!");
-
     }
 
+    const origin_function = sourceFile.getFunctionOrThrow(process.env.FUNCTION_TEST);
+    const cfgGenerration: CfgBuilder = new CfgBuilder(origin_function);
+    const cfg = cfgGenerration.generateCFG();
+    let testpathGen: TestpathGeneration = new TestpathGeneration(cfg);
+    testpathGen.generateTestpaths();
 }
 
 // @ts-ignore

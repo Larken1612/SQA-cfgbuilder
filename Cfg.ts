@@ -8,8 +8,13 @@ export class Cfg implements ICFG {
     private _root: IcfgNode;
     private beginNode: IcfgNode;
     private endNode: IcfgNode;
-    private _functionNode: FunctionDeclaration;
-    private _statements: Array<IcfgNode>;
+    private functionNode: FunctionDeclaration;
+    private statements: Array<IcfgNode>;
+    constructor(statements: Array<IcfgNode>, functionNode ?: FunctionDeclaration, beginNode?: IcfgNode) {
+        this.statements = statements;
+        this.functionNode = functionNode;
+        this.beginNode = beginNode;
+    }
 /*
     constructor(root?: IcfgNode, beginNode?: IcfgNode, endNode?: IcfgNode) {
         this._root = root;
@@ -19,25 +24,21 @@ export class Cfg implements ICFG {
 
  */
 
-    constructor(beginNode: IcfgNode, functionNode?: FunctionDeclaration) {
-       this.beginNode = beginNode;
-       this._functionNode = functionNode;
-    }
 
     getBeginNode = (): IcfgNode => {
         return this._root;
     };
 
     getAllNodes = () => {
-        return this._statements;
+        return this.statements;
     };
 
     getFunctionNode(): FunctionDeclaration {
-        return this._functionNode;
+        return this.functionNode;
     }
 
     setFunctionNode(value: FunctionDeclaration) {
-        this._functionNode = value;
+        this.functionNode = value;
     }
 
     /*
@@ -52,6 +53,9 @@ export class Cfg implements ICFG {
      */
 
 
+    public getRoot(): IcfgNode {
+        return this._root;
+    }
 
     public setRoot(root: IcfgNode): void {
         this._root = root;

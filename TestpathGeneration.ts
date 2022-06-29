@@ -7,10 +7,12 @@ import {ITestpath} from "./ITestpath";
 import {FlagCondition} from "./FlagCondition";
 import {IfConditionCfgNode} from "./IfConditionCfgNode";
 import {ConditionCfgNode} from "./ConditionCfgNode";
+import {ITestpathGeneration} from "./ITestpathGeneration";
 
-export class TestpathGeneration {
+export class TestpathGeneration implements ITestpathGeneration {
     private _cfg: ICFG;
-    private _functionNode: FunctionDeclaration;
+    private _testpaths: Testpath;
+
 
     constructor(cfg: ICFG) {
         this._cfg = cfg;
@@ -18,8 +20,17 @@ export class TestpathGeneration {
 
 
     generateTestpaths(): void {
-        TestpathGeneration.logger.log("Starting collect testpaths!!!")
+        let testpaths: Array<Testpath> = new Array();
         let beginNode: IcfgNode = this._cfg.getBeginNode();
+        let initialTestpath: Testpath = new Testpath();
+        initialTestpath.setFunctionNode(this._cfg.getFunctionNode());
+        this.traverseCFG(beginNode, initialTestpath, testpaths, new Array<FlagCondition>());
+
+        for (var i = 0; i< testpaths.length; i++) {
+            let tmp: ITestpath = testpaths[i];
+            tmp.setFunctionNode(this._cfg.getFunctionNode());
+        }
+
 
     }
 
@@ -43,11 +54,11 @@ export class TestpathGeneration {
 
             if(stmt instanceof ConditionCfgNode) {
                 if(stmt instanceof IfConditionCfgNode) {
-                    let trueFlag = new FlagCondition(stmt, Direction.TRUE);
+                    let trueFlag = new FlagCondition(stmt);
                     flags.push(trueFlag);
                     this.traverseCFG(trueNode, testpath, testpathList, flags);
                     flags.pop();
-                    let flaseFlag = new FlagCondition(stmt, Direction.FALSE);
+                    let falseFlag = new FlagCondition(stmt);
                     flags.push(falseFlag);
                     this.traverseCFG(falseNode, testpath, testpathList, flags);
                     flags.pop();
@@ -58,4 +69,10 @@ export class TestpathGeneration {
             testpath.pop();
         }
     }
+/*
+    getPossibleTestpaths(): Array<ITestpath> {
+        return undefined;
+    }
+
+ */
 }
