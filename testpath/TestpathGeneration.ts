@@ -10,25 +10,25 @@ import {ConditionCfgNode} from "./ConditionCfgNode";
 import {ITestpathGeneration} from "./ITestpathGeneration";
 
 export class TestpathGeneration implements ITestpathGeneration {
-    private _cfg: ICFG;
+    private cfg: ICFG;
     private _testpaths: Testpath;
 
 
     constructor(cfg: ICFG) {
-        this._cfg = cfg;
+        this.cfg = cfg;
     }
 
 
     generateTestpaths(): void {
         let testpaths: Array<Testpath> = new Array();
-        let beginNode: IcfgNode = this._cfg.getBeginNode();
+        let beginNode: IcfgNode = this.cfg.getBeginNode();
         let initialTestpath: Testpath = new Testpath();
-        initialTestpath.setFunctionNode(this._cfg.getFunctionNode());
+        initialTestpath.setFunctionNode(this.cfg.getFunctionNode());
         this.traverseCFG(beginNode, initialTestpath, testpaths, new Array<FlagCondition>());
 
         for (var i = 0; i< testpaths.length; i++) {
             let tmp: ITestpath = testpaths[i];
-            tmp.setFunctionNode(this._cfg.getFunctionNode());
+            tmp.setFunctionNode(this.cfg.getFunctionNode());
         }
 
 

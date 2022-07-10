@@ -1,5 +1,5 @@
 import {ICFGGeneration} from "./ICFGGeneration";
-import {IcfgNode} from "./IcfgNode";
+import {IcfgNode} from "./Nodes/IcfgNode";
 import {
     Block,
     BreakStatement, CaseClause, CodeBlockWriter, CommentStatement,
@@ -10,17 +10,17 @@ import {
     Statement, SwitchStatement, WhileStatement, WithStatement
 } from "ts-morph";
 import {ICFG} from "./ICFG";
-import {CfgNode} from "./CfgNode";
-import {BeginFlagCfgNode} from "./BeginFlagCfgNode";
-import {EndFlagCfgNode} from "./EndFlagCfgNode";
-import {ScopeCfgNode} from "./ScopeCfgNode";
-import {ForwardCfgNode} from "./ForwardCfgNode";
-import {FlagCfgNode} from "./FlagCfgNode";
+import {CfgNode} from "./Nodes/CfgNode";
+import {BeginFlagCfgNode} from "./Nodes/BeginFlagCfgNode";
+import {EndFlagCfgNode} from "./Nodes/EndFlagCfgNode";
+import {ScopeCfgNode} from "./Nodes/ScopeCfgNode";
+import {ForwardCfgNode} from "./Nodes/ForwardCfgNode";
+import {FlagCfgNode} from "./Nodes/FlagCfgNode";
 import {Utils} from "./Utils";
-import {IfConditionCfgNode} from "./IfConditionCfgNode";
-import {ForConditionCfgNode} from "./ForConditionCfgNode";
-import {WhileConditionCfgNode} from "./WhileConditionCfgNode";
-import {DoConditionCfgNode} from "./DoConditionCfgNode";
+import {IfConditionCfgNode} from "./Nodes/IfConditionCfgNode";
+import {ForConditionCfgNode} from "./Nodes/ForConditionCfgNode";
+import {WhileConditionCfgNode} from "./Nodes/WhileConditionCfgNode";
+import {DoConditionCfgNode} from "./Nodes/DoConditionCfgNode";
 import {Cfg} from "./Cfg";
 
 export class CfgBuilder implements ICFGGeneration {
@@ -36,9 +36,10 @@ export class CfgBuilder implements ICFGGeneration {
     private BEGIN?: IcfgNode;
     private END?: IcfgNode;
     private functionNode: FunctionDeclaration;
-    generateCFG(): ICFG {
-        return
-    }
+
+    generateCFG(): void {
+        return this.parse(this.functionNode);
+    };
 
     constructor(functionNode: FunctionDeclaration) {
         this.functionNode = functionNode;

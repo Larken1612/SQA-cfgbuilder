@@ -11,24 +11,13 @@ import {
     ForStatement, ForOfStatement,
     WhileStatement, DoStatement
 } from "ts-morph";
-import {Node} from "./Node";
+import {Node} from "./Nodes/Node";
 // @ts-ignore
 import {Cfg} from "./Cfg";
-import {NormalCfgNode} from "./NormalCfgNode";
-import {ConditionCfgNode} from "./ConditionCfgNode";
-import {CfgNode} from "./CfgNode";
-import {ScopeCfgNode} from "./ScopeCfgNode";
-import {IcfgNode} from "./IcfgNode";
-import {ICFG} from "./ICFG";
-import {ICFGGeneration} from "./ICFGGeneration";
-import {ForwardCfgNode} from "./ForwardCfgNode";
-import {EndFlagCfgNode} from "./EndFlagCfgNode";
-import {IfConditionCfgNode} from "./IfConditionCfgNode";
 import * as dotenv from 'dotenv';
-import {BeginFlagCfgNode} from "./BeginFlagCfgNode";
+
 import {CfgBuilder} from "./CfgBuilder";
-import {TestpathGeneration} from "./TestpathGeneration";
-import {ITestpathGeneration} from "./ITestpathGeneration";
+
 
 dotenv.config();
 if (process.env.tsConfigFilePath) {
@@ -68,48 +57,53 @@ if (sourceFile != undefined) {
     const origin_function = sourceFile.getFunctionOrThrow(process.env.FUNCTION_TEST);
     const cfgGenerration: CfgBuilder = new CfgBuilder(origin_function);
     const cfg = cfgGenerration.generateCFG();
+
+
+    /*
+    const cfg = cfgGenerration.generateCFG();
     let testpathGen: TestpathGeneration = new TestpathGeneration(cfg);
     testpathGen.generateTestpaths();
 }
 
+     */
+
 // @ts-ignore
-/*
-function buildCfg(functionAst: FunctionDeclaration): Cfg {
+    /*
+    function buildCfg(functionAst: FunctionDeclaration): Cfg {
 
-    let body = functionAst.getBody();// lay ra body
+        let body = functionAst.getBody();// lay ra body
 
-    if (body instanceof Block) {// kiem tra body
-        let statements = body.getStatements()
-        let nodes : Node[] = [];// khai báo mảng rỗng cho nodes
-        // @ts-ignore
-        statements.forEach(s =>
-        {
-            let text = s.getText();// lấy ra các text
-            if (s instanceof VariableStatement || s instanceof ExpressionStatement) {
-                let newNode: NormalNode = new NormalNode(text);
-                nodes.push(newNode);
+        if (body instanceof Block) {// kiem tra body
+            let statements = body.getStatements()
+            let nodes : Node[] = [];// khai báo mảng rỗng cho nodes
+            // @ts-ignore
+            statements.forEach(s =>
+            {
+                let text = s.getText();// lấy ra các text
+                if (s instanceof VariableStatement || s instanceof ExpressionStatement) {
+                    let newNode: NormalNode = new NormalNode(text);
+                    nodes.push(newNode);
+                }
+                else if (s instanceof IfStatement) {
+                    let newNode: ConditionalNode = new ConditionalNode(text);
+                    nodes.push(newNode);
+                }
+            })
+
+            start.setBranch(nodes[0])// trỏ đến node tiếp theo
+            for (var i = 0; i < nodes.length - 1; i++) { // chỉ lặp tới nodes.length-1
+                nodes[i].setBranch(nodes[i + 1]);
             }
-            else if (s instanceof IfStatement) {
-                let newNode: ConditionalNode = new ConditionalNode(text);
-                nodes.push(newNode);
-            }
-        })
 
-        start.setBranch(nodes[0])// trỏ đến node tiếp theo
-        for (var i = 0; i < nodes.length - 1; i++) { // chỉ lặp tới nodes.length-1
-            nodes[i].setBranch(nodes[i + 1]);
+            nodes[nodes.length - 1].setBranch(end);// gán nốt end
         }
 
-        nodes[nodes.length - 1].setBranch(end);// gán nốt end
+        return new Cfg(start);// trả về node start
     }
 
-    return new Cfg(start);// trả về node start
-}
 
-
- */
-
-
+     */
 
 
 //--require ts-node/register
+}

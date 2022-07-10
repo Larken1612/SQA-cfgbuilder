@@ -7,8 +7,8 @@ export interface ICFG {
 
      */
     getAllNodes: () => Array<IcfgNode>;
-    //findById: () => IcfgNode;
+    findById: () => IcfgNode;
     getBeginNode: () => IcfgNode;
-   // resetVisitedState(): void;
+    resetVisitedState(): void;
     getFunctionNode(): FunctionDeclaration;
 }

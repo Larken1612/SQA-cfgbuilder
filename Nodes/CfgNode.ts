@@ -1,6 +1,4 @@
 import {IcfgNode} from "./IcfgNode";
-import {Cfg} from "./Cfg";
-
 /*
 khoi tao ten bien va cac constructor
  *//*
