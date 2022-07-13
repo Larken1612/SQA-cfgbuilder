@@ -1,6 +1,4 @@
-import {Node} from "./Nodes/Node";
-import {ForwardCfgNode} from "./Nodes/ForwardCfgNode";
-import {IcfgNode} from "./Nodes/IcfgNode";
+import {IcfgNode} from "./Nodes/IcfgNode"
 import {ICFG} from "./ICFG";
 import {FunctionDeclaration} from "ts-morph";
 
@@ -14,11 +12,6 @@ export class Cfg implements ICFG {
         this.statements = statements;
         this.functionNode = functionNode;
         this.beginNode = beginNode;
-    }
-
-    findById: () => IcfgNode;
-    resetVisitedState(): void {
-        throw new Error("Method not implemented.");
     }
 /*
     constructor(root?: IcfgNode, beginNode?: IcfgNode, endNode?: IcfgNode) {
@@ -64,6 +57,13 @@ export class Cfg implements ICFG {
 
     public setRoot(root: IcfgNode): void {
         this._root = root;
+    }
+
+    findById() {
+        return undefined;
+    }
+
+    resetVisitedState(): void {
     }
 
 

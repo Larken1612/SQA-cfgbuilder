@@ -11,7 +11,7 @@ import {
 } from "ts-morph";
 import {ICFG} from "./ICFG";
 import {CfgNode} from "./Nodes/CfgNode";
-import {BeginFlagCfgNode} from "./Nodes/BeginFlagCfgNode";
+import {BeginFlagCfgNode} from "./BeginFlagCfgNode"
 import {EndFlagCfgNode} from "./Nodes/EndFlagCfgNode";
 import {ScopeCfgNode} from "./Nodes/ScopeCfgNode";
 import {ForwardCfgNode} from "./Nodes/ForwardCfgNode";

@@ -1,4 +1,4 @@
-import {FlagCfgNode} from "./FlagCfgNode";
+import {FlagCfgNode} from "./Nodes/FlagCfgNode";
 
 export class BeginFlagCfgNode extends FlagCfgNode {
     constructor() {
