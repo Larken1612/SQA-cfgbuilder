@@ -1,4 +1,3 @@
-// @ts-ignore
 import {IcfgNode} from "./IcfgNode";
 import {FunctionDeclaration} from "ts-morph";
 
