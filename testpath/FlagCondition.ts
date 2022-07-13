@@ -1,3 +1,4 @@
+// @ts-ignore
 import {ConditionCfgNode} from "./ConditionCfgNode";
 
 export enum Direction {

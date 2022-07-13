@@ -22,6 +22,8 @@ import {ForConditionCfgNode} from "./Nodes/ForConditionCfgNode";
 import {WhileConditionCfgNode} from "./Nodes/WhileConditionCfgNode";
 import {DoConditionCfgNode} from "./Nodes/DoConditionCfgNode";
 import {Cfg} from "./Cfg";
+import {Testpath} from "./testpath/Testpath";
+import {TestpathGeneration} from "./testpath/TestpathGeneration";
 
 export class CfgBuilder implements ICFGGeneration {
 
@@ -36,6 +38,7 @@ export class CfgBuilder implements ICFGGeneration {
     private BEGIN?: IcfgNode;
     private END?: IcfgNode;
     private functionNode: FunctionDeclaration;
+    private _testpaths: Testpath;
 
     generateCFG(): void {
         return this.parse(this.functionNode);
@@ -45,6 +48,8 @@ export class CfgBuilder implements ICFGGeneration {
         this.functionNode = functionNode;
         this.parse(this.functionNode);
     }
+
+    traverseCFG: () => void;
 
     private parse(functionNode: FunctionDeclaration): void {
         this.BEGIN = new BeginFlagCfgNode();
@@ -332,6 +337,12 @@ export class CfgBuilder implements ICFGGeneration {
         while (res != null) {
             console.log(res.getBranch());
             res = res.getTrueNode();
+        }
+    }
+    printInfor2(): void {
+        let ces: Testpath = this._testpaths;
+        while (ces != null) {
+            console.log(ces.getTestpaths());
         }
     }
 

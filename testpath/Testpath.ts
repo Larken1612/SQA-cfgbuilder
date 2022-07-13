@@ -1,11 +1,17 @@
+// @ts-ignore
 import {ICFG} from "./ICFG";
 import {FunctionDeclaration} from "ts-morph";
+// @ts-ignore
 import {IcfgNode} from "./IcfgNode";
+// @ts-ignore
 import {FlagCfgNode} from "./FlagCfgNode";
 import {ITestpath} from "./ITestpath";
 import {FlagCondition} from "./FlagCondition";
 
 export class Testpath implements ITestpath {
+    getTestpaths(): any {
+        throw new Error("Method not implemented.");
+    }
     private cfg: ICFG;
     private functionNode: FunctionDeclaration;
     private flags: Array<FlagCondition>;

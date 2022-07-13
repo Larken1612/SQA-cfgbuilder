@@ -37,7 +37,7 @@
     "prop-types": "^15.7.2",
     "reflect-metadata": "^0.1.13",
     "styx": "^0.2.1",
-    "ts-morph": "^4.3.3",
+    "ts-morph": "^15.1.0",
     "ts-unit": "^1.0.1",
     "typedjson": "^1.5.1",
     "typeorm": "^0.2.25",

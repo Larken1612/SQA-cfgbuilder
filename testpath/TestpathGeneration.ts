@@ -1,11 +1,16 @@
+// @ts-ignore
 import {ICFG} from "./ICFG";
 import {FunctionDeclaration} from "ts-morph";
+// @ts-ignore
 import {IcfgNode} from "./IcfgNode";
+// @ts-ignore
 import {FlagCfgNode} from "./FlagCfgNode";
 import {Testpath} from "./Testpath";
 import {ITestpath} from "./ITestpath";
 import {FlagCondition} from "./FlagCondition";
+// @ts-ignore
 import {IfConditionCfgNode} from "./IfConditionCfgNode";
+// @ts-ignore
 import {ConditionCfgNode} from "./ConditionCfgNode";
 import {ITestpathGeneration} from "./ITestpathGeneration";
 
@@ -16,6 +21,10 @@ export class TestpathGeneration implements ITestpathGeneration {
 
     constructor(cfg: ICFG) {
         this.cfg = cfg;
+    }
+
+    getPossibleTestpaths(): ITestpath[] {
+        throw new Error("Method not implemented.");
     }
 
 
@@ -67,12 +76,22 @@ export class TestpathGeneration implements ITestpathGeneration {
                 this.traverseCFG(trueNode, testpath, testpathList, flags);
             }
             testpath.pop();
+            //return this.traverseCFG(trueNode, testpath, testpathList, flags);
         }
     }
 /*
     getPossibleTestpaths(): Array<ITestpath> {
-        return undefined;
+        return this._testpaths;
     }
 
- */
+    getTestpaths(): Array<Testpath> {
+        return this._testpaths;
+    }
+    setTestpaths (value: Array<Testpath>) {
+        this._testpaths = value;
+    }
+
+     */
+
+
 }

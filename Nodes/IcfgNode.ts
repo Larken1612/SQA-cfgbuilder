@@ -1,4 +1,7 @@
+// @ts-ignore
 import {ICFG} from "./ICFG";
+
+
 
 export interface IcfgNode {
     getContent : () => string;
@@ -13,6 +16,8 @@ export interface IcfgNode {
     setFalseNode(cfgNode: IcfgNode | undefined): void;
     isVisited(): boolean;
     setVisited(visited: boolean): void;
+
+
    // getParent(): IcfgNode;
     //setParent(parent: IcfgNode): void;
 }

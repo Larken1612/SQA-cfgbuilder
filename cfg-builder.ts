@@ -14,20 +14,22 @@ import {
 import {Node} from "./Nodes/Node";
 // @ts-ignore
 import {Cfg} from "./Cfg";
-import * as dotenv from 'dotenv';
+//import * as dotenv from 'dotenv';
 
 import {CfgBuilder} from "./CfgBuilder";
 
-
+/*
 dotenv.config();
 if (process.env.tsConfigFilePath) {
     let x = process.env.tsConfigFilePath;
 }
 
-const tsConfigPath = "C:\\Users\\Admin\\Downloads\\test-project\\applied-ts-project\\tsconfig.json";
+ */
+
+const tsConfigPath = "/Users/hahahpham/Downloads/test-project/applied-ts-project/tsconfig.json";
 console.log("Start Parsing tsConfigFile...");
 const project = new Project({tsConfigFilePath: tsConfigPath});
-console.log("Finish Parsing project");
+
 
 
 // khai báo 2 node đầu và cuối.
@@ -51,8 +53,10 @@ if (sourceFile != undefined) {
     if (_functionNode != undefined) {
         let cfgbuilder = new CfgBuilder(_functionNode);
         cfgbuilder.printInfor1();
-        console.log("Done for visitblock!");
+        cfgbuilder.printInfor2();
+        console.log("Still in progress!");
     }
+    console.log("Finish Parsing project");
 
     const origin_function = sourceFile.getFunctionOrThrow(process.env.FUNCTION_TEST);
     const cfgGenerration: CfgBuilder = new CfgBuilder(origin_function);
