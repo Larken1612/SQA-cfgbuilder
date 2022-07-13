@@ -1,4 +1,4 @@
-import {IcfgNode} from "./IcfgNode";
+import {IcfgNode} from "./Nodes/IcfgNode";
 import {FunctionDeclaration} from "ts-morph";
 
 export interface ICFG {

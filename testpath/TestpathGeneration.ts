@@ -1,12 +1,12 @@
-import {ICFG} from "./ICFG";
+import {ICFG} from "../ICFG";
 import {FunctionDeclaration} from "ts-morph";
-import {IcfgNode} from "./IcfgNode";
-import {FlagCfgNode} from "./FlagCfgNode";
+import {IcfgNode} from "../Nodes/IcfgNode";
+import {FlagCfgNode} from "../Nodes/FlagCfgNode";
 import {Testpath} from "./Testpath";
 import {ITestpath} from "./ITestpath";
-import {FlagCondition} from "./FlagCondition";
-import {IfConditionCfgNode} from "./IfConditionCfgNode";
-import {ConditionCfgNode} from "./ConditionCfgNode";
+import {FlagCondition} from "../testpath/FlagCondition";
+import {IfConditionCfgNode} from "../Nodes/IfConditionCfgNode";
+import {ConditionCfgNode} from "../Nodes/ConditionCfgNode";
 import {ITestpathGeneration} from "./ITestpathGeneration";
 
 export class TestpathGeneration implements ITestpathGeneration {

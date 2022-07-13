@@ -11,12 +11,13 @@ import {
     ForStatement, ForOfStatement,
     WhileStatement, DoStatement
 } from "ts-morph";
+
 import {Node} from "./Nodes/Node";
 // @ts-ignore
 import {Cfg} from "./Cfg";
 import * as dotenv from 'dotenv';
-
 import {CfgBuilder} from "./CfgBuilder";
+import {TestpathGeneration} from "./testpath/TestpathGeneration";
 
 
 dotenv.config();
@@ -51,21 +52,18 @@ if (sourceFile != undefined) {
     if (_functionNode != undefined) {
         let cfgbuilder = new CfgBuilder(_functionNode);
         cfgbuilder.printInfor1();
-        console.log("Done for visitblock!");
+        console.log("Still on TraverseCFG!");
     }
 
-    const origin_function = sourceFile.getFunctionOrThrow(process.env.FUNCTION_TEST);
-    const cfgGenerration: CfgBuilder = new CfgBuilder(origin_function);
-    const cfg = cfgGenerration.generateCFG();
+    const origin_function = sourceFile.getFunctionOrThrow(process.env.SOURCE_FILE_TEST);
 
-
-    /*
-    const cfg = cfgGenerration.generateCFG();
-    let testpathGen: TestpathGeneration = new TestpathGeneration(cfg);
+    const cfgbuilder: CfgBuilder = new CfgBuilder(origin_function);
+    const cfg1 = cfgbuilder.generateCFG();
+    let testpathGen: TestpathGeneration = new TestpathGeneration(cfg1);
     testpathGen.generateTestpaths();
-}
+    console.log("Still on testpath");
 
-     */
+
 
 // @ts-ignore
     /*
